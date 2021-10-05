@@ -1,0 +1,79 @@
+<div class="texto-descriptivo">
+  <mat-card class="card-texto-descriptivo">
+    <mat-card-header class="centrar">
+      <mat-card-title>
+        <div class="titulo">
+          <h1>MÉTRICAS AGREGADAS</h1>
+        </div>
+        <hr class="linea-titulo" />
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="texto-descriptivo">
+        En esta pantalla se muestran las metricas y número de datos para los
+        mejores modelos de cada tarea
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="content">
+  <!-- Select Experimento -->
+  <div class="centrarSelect">
+    <div class="selectTraining">
+      <mat-form-field>
+        <mat-label>{{ "SELECTCORPUS" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="corpus">
+          <mat-option
+            *ngFor="let corpus of corpusList"
+            [value]="corpus"
+            (click)="loadTask()"
+          >
+            {{ corpus }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="selectTrainingByType">
+    <mat-form-field>
+      <mat-label>{{ "SELECTTASK" | translate }}</mat-label>
+
+      <mat-select [(ngModel)]="task">
+        <mat-option
+          *ngFor="let task of taskList"
+          [value]="task"
+          (click)="loadAggregatedMetrics()"
+        >
+          {{ task | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="done !== '' && filas.length === 0">No hay datos</div>
+  <div class="tabla" *ngIf="done !== '' && filas.length !== 0">
+    <mat-sidenav-container>
+      <mat-sidenav #sidenav position="start" mode="side" opened="false">
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <table mat-table [dataSource]="filas" class="mat-elevation-z8">
+          <ng-container
+            *ngFor="let column of displayedColumns; let i = index"
+            matColumnDef="{{ column }}"
+          >
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element[i] }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

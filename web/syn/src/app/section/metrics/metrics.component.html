@@ -1,0 +1,89 @@
+<div class="texto-descriptivo">
+  <mat-card class="card-texto-descriptivo">
+    <mat-card-header class="centrar">
+      <mat-card-title>
+        <div class="titulo">
+          <h1>MÉTRICAS E HIPERPARÁMETROS DE LOS MODELOS</h1>
+        </div>
+        <hr class="linea-titulo" />
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="texto-descriptivo">
+        En esta pantalla se muestran los hiperparámetros utilizados para
+        entrenar el modelo y las métricas obtenidas al evaluar el modelo.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="content">
+  <!-- Select Experimento -->
+  <div class="centrarSelect">
+    <div class="selectTraining">
+      <mat-form-field>
+        <mat-label>{{ "SELECTTASK" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="taskType">
+          <mat-option
+            *ngFor="let experiment of listExperiments"
+            [value]="experiment.task"
+            (click)="getCorpusByType(experiment.task)"
+          >
+            {{ experiment.task_name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="selectTrainingByType">
+      <mat-form-field>
+        <mat-label>{{ "SELECTTRAINING" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="idTask">
+          <mat-option
+            *ngFor="let experiment of listExperimentsByType"
+            [value]="experiment.task_id"
+            (click)="activateButton()"
+          >
+            {{ experiment.corpus + ": " + experiment.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="selectCorpus">
+      <mat-form-field>
+        <mat-label>{{ "SELECTCORPUS" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="corpus">
+          <mat-option
+            *ngFor="let corpus of listCorpusByTask"
+            [value]="corpus"
+            (click)="loadExperimentsByTypeAndCorpus(corpus)"
+          >
+            {{ corpus }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="boton">
+    <button
+      mat-raised-button
+      (click)="getMetricsAndHyperparameters()"
+      [disabled]="!isFilledTest"
+    >
+      {{ "mostrar" | uppercase }}
+    </button>
+  </div>
+  <div class="result" *ngIf="completeQuest === 'DONE'">
+    <h2 class="titulos">HIPERPARÁMETROS</h2>
+    <code class="hyperParameters">
+      <pre>{{ hyperParameters | json }}</pre>
+    </code>
+    <h2 class="titulos">METRICAS</h2>
+    <code class="metrics">
+      <pre>{{ metrics | json }}</pre>
+    </code>
+  </div>
+</div>

@@ -1,0 +1,1360 @@
+openapi: 3.0.0
+info:
+  title: SYN API
+  description: API para acceder a los modelos diseñados en SYN
+  version: 0.1.0
+
+servers:
+  - url: https://api.syn.altgovrd.com/v1
+    description: Servidor de producción
+  - url: http://127.0.0.1:5000/v1
+    description: Servidor de desarrollo local
+
+tags:
+  - name: User Request
+    description: API para crear y autenticar usuarios.
+  - name: Experiments Request
+    description: API para obtener información de los experimentos realizados.
+  - name: Features Request
+    description: API para obtener información de las features obtenidas de los datos estructurados.
+  - name: Dataset Request
+    description: API para obtener información relacionada con los conjuntos de datos utilizados en los entrenamientos.
+  - name: Metrics Request
+    description: API para obtener información relacionada con las métricas utilizadas en los entrenamientos.
+
+paths:
+  /users/:
+    post:
+      tags:
+        - User Request
+      summary: Crea un usuario que permite acceder a los endpoints de la API.
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '201':
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedUser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CreatedUser'
+            text/plain:
+              schema:
+                type: string
+
+  /users/login/:
+    post:
+      tags:
+        - User Request
+      summary: Permite a un usuario autenticarse y obtener un token que le permita acceder a los endpoints de la API.
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Usuario autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+            text/plain:
+              schema:
+                type: string
+
+  /users/dev-login/:
+    post:
+      tags:
+        - User Request
+      summary: Permite a un usuario autenticarse y obtener un token que no expire y que le permita acceder a los endpoints de la API.
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Usuario autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene un listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados.
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/tasks/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene un listado con el nombre y tipo de tarea de los distintos experimentos entrenados.
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Experimentos entrenados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistinctExperimentsByTask'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DistinctExperimentsByTask'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/task/{task}/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene un listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados para un tipo de tarea determinada.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+
+      responses:
+        '200':
+          description: Listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados para un tipo de tarea determinada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/task/{task}/corpus/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene un listado con los corpus existentes en los experimentos entrenados para un tipo de tarea determinado.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+
+      responses:
+        '200':
+          description: Experimientos entrenados de un tipo de tarea determinado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CorpusList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CorpusList'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/task/{task}/corpus/{corpus}/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene un listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados para un tipo de tarea y corpus determinados.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+        - $ref: '#/components/parameters/CorpusParam'
+
+      responses:
+        '200':
+          description: Listado con el identificador, corpus, tarea y descripción de todos los experimentos entrenados para un tipo de tarea y corpus determinados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TrainedExperiments'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/{experiment_id}/model/hyperparameters/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene los hiperparámetros utilizados para entrenar el modelo de un experimento concreto.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/ExperimentIdParam'
+
+      responses:
+        '200':
+          description: Hiperparámetros utilizados para entrenar el modelo de un experimento concreto.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TreeLSTMHyperparameters'
+                  - $ref: '#/components/schemas/CodebooksHyperparameters'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TreeLSTMHyperparameters'
+                  - $ref: '#/components/schemas/CodebooksHyperparameters'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/{experiment_id}/model/metrics/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene las métricas obtenidas al entrenar el modelo de un experimento concreto.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/ExperimentIdParam'
+
+      responses:
+        '200':
+          description: Métricas obtenidas al entrenar el modelo de un experimento concreto.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/BinaryMetrics'
+                  - $ref: '#/components/schemas/MulticlassMetrics'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/BinaryMetrics'
+                  - $ref: '#/components/schemas/MulticlassMetrics'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/{experiment_id}/model/predict/:
+    post:
+      tags:
+        - Experiments Request
+      summary: Utiliza el modelo del experimento seleccionado para predecir la salida.
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Features
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Issue'
+          text/plain:
+            schema:
+              type: string
+      parameters:
+        - $ref: '#/components/parameters/ExperimentIdParam'
+        - $ref: '#/components/parameters/NumIssuesToCompare'
+        - $ref: '#/components/parameters/MaxNumPredictions'
+
+      responses:
+        '200':
+          description: Predicción obtenida utilizando el modelo seleccionado.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ClassifierModelPrediction'
+                  - $ref: '#/components/schemas/SimilarityModelPrediction'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ClassifierModelPrediction'
+                  - $ref: '#/components/schemas/SimilarityModelPrediction'
+            text/plain:
+              schema:
+                type: string
+
+#  /experiments/{experiment_id}/codebooks/model/predict/:
+#    post:
+#      tags:
+#        - Experiments Request
+#      summary: Utiliza el modelo del experimento seleccionado para predecir la salida.
+#      security:
+#        - bearerAuth: [ ]
+#      requestBody:
+#        description: Features
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/Issue'
+#          application/xml:
+#            schema:
+#              $ref: '#/components/schemas/Issue'
+#          application/x-www-form-urlencoded:
+#            schema:
+#              $ref: '#/components/schemas/Issue'
+#          text/plain:
+#            schema:
+#              type: string
+#      parameters:
+#        - $ref: '#/components/parameters/ExperimentIdParam'
+#        - $ref: '#/components/parameters/NumIssuesToCompare'
+#        - $ref: '#/components/parameters/MaxNumPredictions'
+#
+#      responses:
+#        '200':
+#          description: Predicción obtenida utilizando el modelo seleccionado.
+#          content:
+#            application/json:
+#              schema:
+#                oneOf:
+#                  - $ref: '#/components/schemas/ClassifierModelPrediction'
+#                  - $ref: '#/components/schemas/SimilarityModelPrediction'
+#            application/xml:
+#              schema:
+#                oneOf:
+#                  - $ref: '#/components/schemas/ClassifierModelPrediction'
+#                  - $ref: '#/components/schemas/SimilarityModelPrediction'
+#            text/plain:
+#              schema:
+#                type: string
+
+  /experiments/task/{task}/corpus/{corpus}/best-model/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene el modelo para el que la métrica seleccionada ha obtenido un mejor resultado para una tarea y corpus determinados.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+        - $ref: '#/components/parameters/CorpusParam'
+        - $ref: '#/components/parameters/ObjectiveParam'
+
+      responses:
+        '200':
+          description: Modelo para el que la métrica seleccionada ha obtenido un mejor resultado para una tarea y corpus determinados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskId'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TaskId'
+            text/plain:
+              schema:
+                type: string
+
+  /experiments/task/{task}/corpus/{corpus}/aggregated-metrics/:
+    get:
+      tags:
+        - Experiments Request
+      summary: Obtiene las métricas agregadas para todos los modelos entrenados para una tarea y corpus determinados.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+        - $ref: '#/components/parameters/CorpusParam'
+        - $ref: '#/components/parameters/ObjectiveParam'
+
+      responses:
+        '200':
+          description: Métricas agregadas para todos los modelos entrenados para una tarea y corpus determinados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Table'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Table'
+            text/plain:
+              schema:
+                type: string
+
+  /features/task/{task}/:
+    get:
+      tags:
+        - Features Request
+      summary: Obtiene un listado con las features utilizadas para un tipo de tarea determinado.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+
+      responses:
+        '200':
+          description: Listado con las features utilizadas para un tipo de tarea determinado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeaturesNamesList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FeaturesNamesList'
+            text/plain:
+              schema:
+                type: string
+
+  /features/{feature}/corpus/{corpus}/:
+    get:
+      tags:
+        - Features Request
+      summary: Obtiene un listado con los valores de una feature para un corpus determinado.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/FeatureParam'
+        - $ref: '#/components/parameters/CorpusParam'
+
+      responses:
+        '200':
+          description: Listado con los valores de una feature para un corpus determinado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeaturesValuesList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FeaturesValuesList'
+            text/plain:
+              schema:
+                type: string
+
+  /dataset/statistics/task/{task}/corpus/{corpus}/:
+    get:
+      tags:
+        - Dataset Request
+      summary: Obtiene un listado con el número de filas de cada uno de los conjuntos de datos utilizados en un entrenamiento para una tarea y corpus determinados.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+        - $ref: '#/components/parameters/CorpusParam'
+
+      responses:
+        '200':
+          description: Listado con el número de filas de cada uno de los conjuntos de datos utilizados en un entrenamiento para una tarea y corpus determinados.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TreeLSTMDatasetStatisticsArray'
+                  - $ref: '#/components/schemas/CodebooksDatasetStatisticsArray'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TreeLSTMDatasetStatisticsArray'
+                  - $ref: '#/components/schemas/CodebooksDatasetStatisticsArray'
+            text/plain:
+              schema:
+                type: string
+
+  /dataset/{corpus}/tasks/:
+    get:
+      tags:
+        - Dataset Request
+      summary: Obtiene un listado con las tareas existentes para un corpus determinado.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/CorpusParam'
+
+      responses:
+        '200':
+          description: Listado con el número de filas de cada uno de los conjuntos de datos utilizados en un entrenamiento para una tarea y corpus determinados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetTasksArray'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DatasetTasksArray'
+            text/plain:
+              schema:
+                type: string
+
+  /metrics/task/{task}/:
+    get:
+      tags:
+        - Metrics Request
+      summary: Obtiene un listado con los nombres de las métricas utilizadas en los entrenamientos para una tarea determinada.
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: '#/components/parameters/TaskParam'
+
+      responses:
+        '200':
+          description: Listado con los nombres de las métricas utilizadas en los entrenamientos para una tarea determinada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsTasksArray'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MetricsTasksArray'
+            text/plain:
+              schema:
+                type: string
+
+# Apply the security globally to all operations
+security:
+  - bearerAuth: [ ]         # use the same name as in securitySchemes
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+  parameters:
+    TaskParam:
+      in: path
+      name: task   # Path Parameters
+      required: true
+      schema:
+        type: string
+        enum: [ 'assignation', 'custom_assignation', 'classification', 'duplicity', 'prioritization', 'similarity' ]
+        example: duplicity
+      description: Tipo de tarea.
+
+    ExperimentIdParam:
+      in: path
+      name: experiment_id   # Path Parameters
+      required: true
+      schema:
+        type: string
+        example: Nzq_fj++4RMJ
+      description: Identificador único del experimento.
+
+    CorpusParam:
+      in: path
+      name: corpus   # Query Parameters
+      required: true
+      schema:
+        type: string
+        enum: [ 'openOffice', 'netBeans', 'eclipse', 'bugzilla' ]
+        default: bugzilla
+        example: openOffice
+      description: Corpus.
+
+    NumIssuesToCompare:
+      in: query
+      name: num_issues_to_compare   # Query Parameters
+      required: false
+      schema:
+        type: integer
+        default: 1000
+        example: 100
+      description: Número de incidencias con las que se quiere comparar la incidencia actual.
+
+    MaxNumPredictions:
+      in: query
+      name: max_num_predictions   # Query Parameters
+      required: false
+      schema:
+        type: integer
+        default: 5
+        example: 10
+      description: Número de predicciones devueltas.
+
+    FeatureParam:
+      in: path
+      name: feature   # Path Parameters
+      required: true
+      schema:
+        type: string
+        enum: [ 'product', 'bug_severity', 'priority', 'component' ]
+        example: component
+      description: Feature.
+
+    ObjectiveParam:
+      in: query
+      name: objective   # Query Parameters
+      required: false
+      schema:
+        type: string
+        example: accuracy
+      description: Métrica objetivo.
+
+  schemas:
+    User:
+      properties:
+        username:
+          type: string
+          example: "**********"
+        password:
+          type: string
+          example: "**********"
+        is_verified:
+          type: boolean
+          example: false
+        email:
+          type: string
+          example: "*****@*****"
+
+    CreatedUser:
+      type: object
+      properties:
+        code:
+          type: string
+          example: success
+        result:
+          type: object
+          properties:
+            db_insert:
+              type: string
+              example: "{'username': '*****', 'password': '*****', 'is_verified': False, 'email': '*****@*****', '_id': ObjectId('*****')}"
+            verification_email:
+              type: string
+              example: "https://api.syn.altgovrd.com/v1/users/confirm/*****"
+
+    UserLogin:
+      properties:
+        username:
+          type: string
+          example: "**********"
+        password:
+          type: string
+          example: contraseña
+
+    LoggedUser:
+      type: object
+      properties:
+        code:
+          type: string
+          example: success
+        access_token:
+          type: string
+          example: "*****"
+        message:
+          type: string
+          example: Logged in as admin
+
+    TaskId:
+      type: string
+      example: RxDOPRfH0qDB
+
+    TrainedExperiments: # <---- array
+      type: object
+      properties:
+        code:
+          type: string
+          example: success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainedExperiment'
+          example:
+            - classifier: decision_tree
+              corpus: netBeans
+              description: prioritization-netBeans-codebooks-embeddings_pretrained_True_codebooks_n_codewords_25000
+              task: prioritization
+              task_id: c2aldapdyU2k
+            - classifier: random_forest
+              corpus: netBeans
+              description: prioritization-netBeans-codebooks-embeddings_size_300_embeddings_pretrained_True_codebooks_n_codewords_5000
+              task: prioritization
+              task_id: BOyfZieVfh9G
+            - corpus: netBeans
+              description: prioritization-netBeans-tree_lstm-learning_rate_embed_0.0001_loss_function_cross_entropy_loss_embeddings_model_glove_sentence_hidden_dim_25
+              task: prioritization
+              task_id: H1jiTqK3kozF
+
+    TrainedExperiment:
+      type: object
+      properties:
+        task_id:
+          type: string
+          example: RxDOPRfH0qDB
+        task:
+          type: string
+          example: duplicity
+        corpus:
+          type: string
+          example: netBeans
+        description:
+          type: string
+          example: duplicity-netBeans-tree_lstm-base_params
+
+    TrainedExperimentByTask:
+      type: object
+      properties:
+        task:
+          type: string
+          example: classification
+        task_name:
+          type: string
+          example: Clasificación de incidencias
+
+    DistinctExperimentsByTask: # <---- array
+      type: object
+      properties:
+        code:
+          type: string
+          example: success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainedExperimentByTask'
+          example:
+            - task: assignation
+              task_name: Asignación de incidencias (basada en clasificación)
+            - task: classification
+              task_name: Clasificación de incidencias
+            - task: custom_assignation
+              task_name: Asignación de incidencias (basada en carga de trabajo y adecuación del desarrollador)
+            - task: duplicity
+              task_name: Detección de incidencias duplicadas
+            - task: prioritization
+              task_name: Priorización de incidencias
+            - task: similarity
+              task_name: Recuperación de incidencias similares
+
+    DatasetHyperparameters:
+      type: object
+      properties:
+        balance_data:
+          type: boolean
+          example: false
+        corpus:
+          type: string
+          example: netBeans
+        dataset_save_dir:
+          type: string
+          example: /datadrive/host-mounted-volumes/syn/data/tree_lstm/duplicity/openOffice
+        query_limit:
+          type: integer
+          example: 1000
+        task:
+          type: string
+          example: prioritization
+
+    TreeLSTMModelHyperparameters:
+      type: object
+      properties:
+        architecture:
+          type: string
+          example: tree_lstm
+        attention:
+          type: string
+          example: root
+        attention_dim:
+          type: integer
+          example: 512
+        embeddings_model:
+          type: string
+          example: glove
+        embeddings_pretrained:
+          type: boolean
+          example: true
+        embeddings_size:
+          type: integer
+          example: 300
+        n_classes:
+          type: integer
+          example: 5
+        num_layers:
+          type: integer
+          example: 1
+        sentence_hidden_dim:
+          type: integer
+          example: 256
+        structured_data_dropout_rate:
+          type: number
+          format: double
+          example: 0.4
+        structured_data_hidden_dim:
+          type: integer
+          example: 512
+        structured_data_input_dim:
+          type: integer
+          example: 3
+        structured_data_num_layers:
+          type: integer
+          example: 2
+        use_structured_data:
+          type: boolean
+          example: true
+
+    TreeLSTMSchedulerHyperparameters:
+      type: object
+      properties:
+        batch_size:
+          type: integer
+          example: 25
+        learning_rate_decay:
+          type: number
+          format: double
+          example: 0.99
+        learning_rate_embed:
+          type: number
+          format: double
+          example: 0.001
+        learning_rate_param:
+          type: number
+          format: double
+          example: 0.01
+        loss_function:
+          type: string
+          example: cross_entropy_loss
+        max_epochs:
+          type: integer
+          example: 5
+        model_save_dir:
+          type: string
+          example: /datadrive/host-mounted-volumes/syn/experiments/tree_lstm/assignation/bugzilla/hyper_search/embeddings_model_glove_sentence_hidden_dim_512_attention_root
+
+    TreeLSTMHyperparameters:
+      type: object
+      properties:
+        dataset:
+          $ref: '#/components/schemas/DatasetHyperparameters'
+        model:
+          $ref: '#/components/schemas/TreeLSTMModelHyperparameters'
+        scheduler:
+          $ref: '#/components/schemas/TreeLSTMSchedulerHyperparameters'
+
+    CodebooksModelHyperparameters:
+      type: object
+      properties:
+        architecture:
+          type: string
+          example: codebooks
+        classifier:
+          type: string
+          example: decision_tree
+        codebooks_n_codewords:
+          type: integer
+          example: 5000
+        embeddings_model:
+          type: string
+          example: glove
+        embeddings_pretrained:
+          type: boolean
+          example: true
+        embeddings_size:
+          type: integer
+          example: 300
+        n_classes:
+          type: integer
+          example: 5
+        structured_data_input_dim:
+          type: integer
+          example: 3
+        tfidf_min_df:
+          type: integer
+          example: 1
+        use_structured_data:
+          type: boolean
+          example: true
+
+    CodebooksSchedulerHyperparameters:
+      type: object
+      properties:
+        model_save_dir:
+          type: string
+          example: /datadrive/host-mounted-volumes/syn/experiments/codebooks/prioritization/netBeans/hyper_search/embeddings_pretrained_True_codebooks_n_codewords_50
+
+    CodebooksHyperparameters:
+      type: object
+      properties:
+        dataset:
+          $ref: '#/components/schemas/DatasetHyperparameters'
+        model:
+          $ref: '#/components/schemas/CodebooksModelHyperparameters'
+        scheduler:
+          $ref: '#/components/schemas/CodebooksSchedulerHyperparameters'
+
+    BinaryConfusionMatrix: # <---- array
+      type: array
+      items:
+        type: number
+        format: integer
+      example:
+        - [
+            5093,
+            951
+        ]
+        - [
+            783,
+            4670
+        ]
+
+    MulticlassConfusionMatrix:
+      type: array
+      items:
+        type: number
+        format: integer
+      example:
+        - [
+            341,
+            0,
+            1733,
+            0,
+            0
+        ]
+        - [
+            57,
+            33,
+            3068,
+            4,
+            0
+        ]
+        - [
+            218,
+            1,
+            60256,
+            10,
+            5
+        ]
+        - [
+            0,
+            0,
+            809,
+            32,
+            5
+        ]
+        - [
+            0,
+            0,
+            442,
+            1,
+            18
+        ]
+
+    BinaryMetrics:
+      type: object
+      properties:
+        accuracy:
+          type: number
+          format: double
+          example: 0.8491780464468992
+        average_precision:
+          type: number
+          format: double
+          example: 0.7796207353521476
+        balanced_accuracy:
+          type: number
+          format: double
+          example: 0.8495315937905328
+        confusion_matrix:
+          $ref: '#/components/schemas/BinaryConfusionMatrix'
+        f1:
+          type: number
+          format: double
+          example: 0.8434170128228282
+        jaccard:
+          type: number
+          format: double
+          example: 0.7292317301686446
+        neg_brier_score:
+          type: number
+          format: double
+          example: 0.1508219535531008
+        neg_log_loss:
+          type: number
+          format: double
+          example: 0.3563236839609641
+        precision:
+          type: number
+          format: double
+          example: 0.8308130225938445
+        recall:
+          type: number
+          format: double
+          example: 0.856409315972859
+        roc_auc:
+          type: number
+          format: double
+          example: 0.8495315937905328
+
+    MulticlassMetrics:
+      type: object
+      properties:
+        accuracy:
+          type: number
+          format: double
+          example: 0.9052257843151881
+        balanced_accuracy:
+          type: number
+          format: double
+          example: 0.24957104463797872
+        confusion_matrix:
+          $ref: '#/components/schemas/MulticlassConfusionMatrix'
+        f1_macro:
+          type: number
+          format: double
+          example: 0.273979132507127
+        f1_micro:
+          type: number
+          format: double
+          example: 0.9052257843151881
+        f1_weighted:
+          type: number
+          format: double
+          example: 0.8678845652587502
+        hamming_loss:
+          type: number
+          format: double
+          example: 0.09477421568481195
+        jaccard_macro:
+          type: number
+          format: double
+          example: 0.22730345671591712
+        jaccard_micro:
+          type: number
+          format: double
+          example: 0.8268607091270814
+        jaccard_weighted:
+          type: number
+          format: double
+          example: 0.8228609915813162
+        precision_macro:
+          type: number
+          format: double
+          example: 0.7513193664734077
+        precision_micro:
+          type: number
+          format: double
+          example: 0.9052257843151881
+        precision_weighted:
+          type: number
+          format: double
+          example: 0.8959539209923048
+        recall_macro:
+          type: number
+          format: double
+          example: 0.24957104463797872
+        recall_micro:
+          type: number
+          format: double
+          example: 0.9052257843151881
+        recall_weighted:
+          type: number
+          format: double
+          example: 0.9052257843151881
+        roc_auc_ovo:
+          type: number
+          format: double
+          example: 0.694851777730366
+        roc_auc_ovo_weighted:
+          type: number
+          format: double
+          example: 0.7400345989623227
+        roc_auc_ovr:
+          type: number
+          format: double
+          example: 0.7531158330198906
+        roc_auc_ovr_weighted:
+          type: number
+          format: double
+          example: 0.7422816013114379
+
+    ClassifierModelPrediction:
+      type: object
+      properties:
+        pred:
+          type: string
+          example: P1
+
+    IssueProbabilityPrediction:
+      type: object
+      properties:
+        bug_id:
+          type: integer
+          example: 239803
+        predidct_proba:
+          type: number
+          format: double
+          example: 0.7750720381736755
+
+    SimilarityModelPrediction:
+      type: object
+      properties:
+        code:
+          type: string
+          example: success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/IssueProbabilityPrediction'
+          example:
+            - bug_id: 239803
+              predidct_proba: 0.7750720381736755
+            - bug_id: 239813
+              predidct_proba: 0.7726039886474609
+            - bug_id: 239764
+              predidct_proba: 0.7697471380233765
+            - bug_id: 239837
+              predidct_proba: 0.7695835828781128
+            - bug_id: 239863
+              predidct_proba: 0.7695278525352478
+
+    Issue:
+      type: object
+      properties:
+        bug_id:
+          type: integer
+          example: 1670
+        product:
+          type: string
+          example: platform
+        bug_severity:
+          type: string
+          example: major
+        component:
+          type: string
+          example: Editor
+        priority:
+          type: string
+          example: P3
+        description:
+          type: string
+          example: one would like to get window opened with hisher preferred size position .
+      required:
+        - description
+
+    CorpusList:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: string
+          example: [ "bugzilla", "openOffice" ]
+
+    FeaturesNamesList:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: string
+          example: [ "product", "bug_severity", "component" ]
+
+    FeaturesValuesList:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: string
+          example: [ "P1", "P2", "P3", "P4" ]
+
+    Table:
+      type: object
+      properties:
+        headers:
+          type: array
+          items:
+            type: object
+          example: [
+              "task_id",
+              "trainer",
+              "sparse",
+              "learning_rate_param",
+              "learning_rate_embed",
+              "learning_rate_decay",
+              "loss_function",
+              "regularization_strength",
+              "hyper_search_objective",
+              "hyper_search_overwrite",
+              "max_epochs",
+              "n_classes",
+              "embeddings_size",
+              "embeddings_model",
+              "embeddings_pretrained",
+              "num_layers",
+              "sentence_hidden_dim",
+              "attention",
+              "attention_dim",
+              "structured_data_input_dim",
+              "structured_data_num_layers",
+              "structured_data_hidden_dim",
+              "structured_data_dropout_rate",
+              "use_structured_data",
+              "accuracy" ]
+        table:
+          type: array
+          items:
+            type: string
+          example: [
+              0,
+              "RxDOPRfH0qDB",
+              "AdagradTrainer",
+              1,
+              0.01,
+              0.0001,
+              0.99,
+              "cross_entropy_loss",
+              0.0001,
+              "accuracy",
+              true,
+              1,
+              5,
+              300,
+              "glove",
+              true,
+              1,
+              256,
+              "none",
+              32,
+              3,
+              2,
+              512,
+              0.4,
+              true,
+              0.804746419428492 ]
+
+    TreeLSTMDatasetStatistics:
+      type: object
+      properties:
+        train_dataset:
+          type: integer
+          example: 72187
+        dev_dataset:
+          type: integer
+          example: 15468
+        test_dataset:
+          type: integer
+          example: 15468
+
+    TreeLSTMDatasetStatisticsArray:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/TreeLSTMDatasetStatistics'
+
+    CodebooksDatasetStatistics:
+      type: object
+      properties:
+        train_dataset:
+          type: integer
+          example: 72187
+        test_dataset:
+          type: integer
+          example: 15468
+
+    CodebooksDatasetStatisticsArray:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodebooksDatasetStatistics'
+
+    DatasetTasksArray:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: string
+          example: [ 'assignation', 'custom_assignation', 'classification', 'duplicity', 'prioritization', 'similarity' ]
+
+    MetricsTasksArray:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: string
+          example: [
+              "accuracy",
+              "balanced_accuracy",
+              "precision_micro",
+              "precision_weighted",
+              "recall_macro",
+              "jaccard_micro",
+              "jaccard_weighted",
+              "f1_micro",
+              "f1_macro",
+              "confusion_matrix",
+              "hamming_loss",
+              "roc_auc_ovr",
+              "roc_auc_ovo",
+              "roc_auc_ovr_weighted",
+              "roc_auc_ovo_weighted"
+          ]

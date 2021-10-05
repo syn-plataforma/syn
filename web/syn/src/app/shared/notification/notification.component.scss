@@ -1,0 +1,42 @@
+.bloqueNotificaciones {
+
+  padding: 0 16px;
+
+  .bloqueLinea {
+    background: #f8f8f8;
+    padding: 16px;
+    border-left: 2px solid;
+    margin-bottom: 8px;
+
+    &.tipoA {
+      border-color: #329d9c;
+    }
+
+    &.tipoB {
+      border-color: #78e495;
+    }
+
+    .texto {
+
+      .loader {
+        display: none;
+      }
+
+      .titulo {
+        font-family: "Open Sans SemiBold";
+        font-size: 1rem;
+        line-height: 1.500rem;
+        color: #205072;
+        margin-bottom: 8px;
+      }
+
+      .cuerpo {
+        font-family: "Open Sans";
+        font-size: 0.857rem;
+        line-height: 1.286rem;
+        color: #333333;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

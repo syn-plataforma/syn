@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: syn_rest_api_app
+    build:
+      context: ../
+      dockerfile: ./deployments/app/Dockerfile
+    image: altgovrd/syn-rest-api:0.1.0
+    volumes:
+      - syn_rest_api_app_volume/:/app/
+      - ${EVALUATE_DATA_PATH}:/usr/src/evaluate_data:ro
+      - ${MODEL_DUMP_PATH}:/usr/src/model_dump:ro
+      - ${CORENLP_HOME}:/usr/src/stanford-corenlp:ro
+    ports:
+      - 5000:5000
+    networks:
+      - syn_rest_api_net
+    env_file:
+      - app/.env.dev
+      - db/.env.dev.db
+    depends_on:
+      - db
+  db:
+    image: mongo
+    container_name: syn_rest_api_mongodb
+    networks:
+      - syn_rest_api_net
+    volumes:
+      - syn_rest_api_mongo_volume:/data/db
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - "30017:27017"
+    env_file:
+      - db/.env.dev.db
+
+networks:
+  syn_rest_api_net:
+
+volumes:
+  syn_rest_api_app_volume:
+  syn_rest_api_mongo_volume:

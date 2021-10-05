@@ -1,0 +1,65 @@
+version: '3.7'
+
+services:
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: nginx
+    image: nginxproxy/nginx-proxy
+    # Arranca automáticamente el contenedor al iniciar el equipo.
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /datadrive/host-mounted-volumes/api/static/:/home/app/web/static/:ro
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    # Arranca automáticamente el contenedor al inciciar el equipo.
+    restart: always
+    env_file:
+      - app/.env.prod.proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+    depends_on:
+      - nginx-proxy
+  app:
+    container_name: syn_rest_api_app
+    build:
+      context: ../
+      dockerfile: ./deployments/app/Dockerfile
+    image: altgovrd/syn-rest-api:0.1.1
+    # Arranca automáticamente el contenedor al inciciar el equipo.
+    restart: always
+    # En Windows es necesario crear antes el volumen con el siguiente comando:
+    # docker volume create --name=postgresql_volume
+    volumes:
+      - syn_rest_api_app_volume/:/app/
+      - /datadrive/host-mounted-volumes/api/evaluate_data:/usr/src/evaluate_data:ro
+      - /datadrive/host-mounted-volumes/syn/dump:/usr/src/model_dump:ro
+      - /datadrive/host-mounted-volumes/stanford-corenlp:/usr/src/stanford-corenlp:ro
+      - /datadrive/host-mounted-volumes/syn/experiments/:/usr/src/experiments:ro
+      - /datadrive/host-mounted-volumes/syn/data/word_embeddings/:/usr/src/word_embeddings:ro
+    expose:
+      - 5000
+    env_file:
+      - app/.env.prod
+      - db/.env.prod.gpu.db
+    depends_on:
+      - nginx-proxy-letsencrypt
+
+volumes:
+  certs:
+    name: certs
+  html:
+    name: html
+  vhost:
+    name: vhost
+  syn_rest_api_app_volume:
+    name: syn_rest_api_app_volume

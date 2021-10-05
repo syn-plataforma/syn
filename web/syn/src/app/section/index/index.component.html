@@ -1,0 +1,114 @@
+<div class="texto-descriptivo">
+  <mat-card class="card-texto-descriptivo">
+    <mat-card-header class="centrar">
+      <mat-card-title>
+        <div class="titulo">
+          <h1>SYN</h1>
+        </div>
+        <hr class="linea-titulo" />
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="texto-descriptivo">
+        Esta plataforma de monitorización permite visualizar y monitorizar
+        correctamente los resultados de la ejecución del modelo, así como las
+        distintas métricas utilizadas para evaluar el desempeño del modelo, y
+        poder así preparar estrategias de monitorización y mantenimiento que
+        puedan aplicarse al nuevo modelo diseñado mediante la pantalla Dashboard
+        proporcionada.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div>
+  <!-- Select Experimento -->
+  <div class="centrarSelect">
+    <div class="selectTraining">
+      <mat-form-field>
+        <mat-label>{{ "SELECTTASK" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="taskType">
+          <mat-option
+            *ngFor="let experiment of listExperiments"
+            [value]="experiment.task"
+            (click)="getCorpusByType(experiment.task)"
+          >
+            {{ experiment.task_name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="selectTrainingByType">
+      <mat-form-field>
+        <mat-label>{{ "SELECTTRAINING" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="idTask">
+          <mat-option
+            *ngFor="let experiment of listExperimentsByType"
+            [value]="experiment.task_id"
+            (click)="activateButton()"
+          >
+            {{ experiment.corpus + ": " + experiment.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="selectCorpus">
+      <mat-form-field>
+        <mat-label>{{ "SELECTCORPUS" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="corpus">
+          <mat-option
+            *ngFor="let corpus of listCorpusByTask"
+            [value]="corpus"
+            (click)="loadExperimentsByTypeAndCorpus(corpus)"
+          >
+            {{ corpus }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Contenedor de opciones API TEST y API -->
+  <div class="contenedor-opciones">
+    <div class="div-card-test">
+      <mat-card class="card-test">
+        <mat-card-content>
+          <div class="iconosOpciones">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="183px"
+              viewBox="0 0 24 24"
+              width="187px"
+              fill="#707070"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
+            </svg>
+          </div>
+          <div class="divider">
+            <mat-divider vertical="true"></mat-divider>
+          </div>
+          <div class="opcion">
+            <div class="tituloTarjeta"><b>TEST</b></div>
+            <p class="parrafos">
+              {{ "INDEXOPTIONTEST" | translate }}
+            </p>
+            <div class="boton">
+              <button
+                mat-raised-button
+                (click)="changeComponent('/test')"
+                [disabled]="!isFilledTest"
+              >
+                {{ "GETSTARTEDBUTTON" | translate }}
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

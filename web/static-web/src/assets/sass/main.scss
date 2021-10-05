@@ -1,0 +1,158 @@
+@import "./variables.scss";
+@import "../../components/sections/home/home.scss";
+@import "../../components/core/404/404.scss";
+@import "../../components/sections/sourceCode/sourceCode.scss";
+@import "../../components/sections/dataset/dataset.scss";
+
+/*
+ * SCSS que debe contener todos los scss de la web, todo scss externo a este se debe importar para
+ * funcione.
+ */
+
+body {
+  background: var(--appBackground);
+  color: whitesmoke;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background: rgb(63, 68, 73);
+  background: radial-gradient(
+    circle,
+    rgba(63, 68, 73, 1) 0%,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(3, 5, 6, 1) 100%
+  );
+  border-top: 1px solid #ffffff;
+  color: aliceblue;
+  opacity: 0.8;
+}
+.navbar {
+  background: rgb(59, 166, 226);
+  background: -moz-linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  background: -webkit-linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  background: linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3ba6e2", endColorstr="#036f9a", GradientType=1);
+}
+
+.active {
+  color: white;
+}
+
+.logoFooter {
+  display: block;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 10px;
+  position: fixed;
+  bottom: 0;
+}
+
+.logoNavbar {
+  display: block;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 10px;
+}
+
+
+
+.nuevoLogoFooter {
+  display: block;
+  margin-bottom: auto;
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+.texto {
+  color: black;
+}
+.subrayado {
+  text-decoration: underline;
+}
+.colorAzul {
+  color: rgb(139, 138, 219);
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  padding: 20px;
+  width: 1500px;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  margin-top: 50px;
+  padding: 2px 16px;
+  float: left;
+  margin-left: 180px;
+  margin-bottom: 50px;
+}
+
+.bodyHome {
+  justify-content: center;
+}
+
+.titulo {
+  text-align: center;
+  padding-bottom: 10px;
+  color: black;
+}
+
+.table {
+  margin-top: 35px !important;
+  margin-bottom: 35px !important;
+}
+
+.datasetInfo {
+  margin-top: 10px;
+}
+
+.ministerioPicture{
+background-image: url(../img/logo_ministerio.png);
+height: 57px;
+width:272px;
+margin-top: 10px;
+}
+
+.navbarPicture{
+  background-image: url(../img/logo_capgemini.png);
+  height: 57px;
+  width:272px;
+  margin-top: 10px;
+  margin-left: 50px;
+  margin-bottom: 5px;
+}
+
+.footerPicture{
+  background-image: url(../img/logo_capgemini.png);
+  height: 57px;
+  width:272px;
+  margin:auto;
+}

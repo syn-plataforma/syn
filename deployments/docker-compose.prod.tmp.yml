@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: syn_rest_api_app
+    build:
+      context: ../
+      dockerfile: ./deployments/app/Dockerfile.prod
+    image: altgovrd/syn-rest-api:0.1.0
+    volumes:
+      - syn_rest_api_app_volume/:/app/
+      - /datadrive/host-mounted-volumes/api/evaluate_data:/usr/src/evaluate_data:ro
+      - /datadrive/host-mounted-volumes/syn/dump:/usr/src/model_dump:ro
+      - /datadrive/host-mounted-volumes/stanford-corenlp:/usr/src/stanford-corenlp:ro
+    ports:
+      - 5000:5000
+    networks:
+      - syn_rest_api_net
+    env_file:
+      - app/.env.prod
+      - db/.env.prod.db
+
+networks:
+  syn_rest_api_net:
+
+volumes:
+  syn_rest_api_app_volume:

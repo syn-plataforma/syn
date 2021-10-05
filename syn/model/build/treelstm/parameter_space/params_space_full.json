@@ -1,0 +1,80 @@
+{
+  "alias": "hyper_search",
+  "reference_params": true,
+  "scheduler": {
+    "trainer": [
+      "SimpleSGDTrainer",
+      "CyclicalSGDTrainer",
+      "MomentumSGDTrainer",
+      "AdagradTrainer",
+      "AdadeltaTrainer",
+      "RMSPropTrainer",
+      "AdamTrainer",
+      "AmsgradTrainer"
+    ],
+    "sparse": 1,
+    "learning_rate_param": [
+      1e-4,
+      1e-3,
+      1e-2
+    ],
+    "learning_rate_embed": [
+      1e-4,
+      1e-3,
+      1e-2
+    ],
+    "learning_rate_decay": 0.99,
+    "model_save_dir": "",
+    "batch_size": 25,
+    "regularization_strength": 0.0001
+  },
+  "model": {
+    "architecture": "tree_lstm",
+    "n_classes": 5,
+    "embeddings_size": [
+      100,
+      300
+    ],
+    "embeddings_model": [
+      "glove",
+      "word2vec",
+      "fasttext"
+    ],
+    "embeddings_pretrained": [
+      true,
+      false
+    ],
+    "num_layers": 1,
+    "sentence_hidden_dim": [
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "attention": [
+      "none",
+      "leaf",
+      "root"
+    ],
+    "attention_dim": [
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "structured_data_input_dim": 3,
+    "structured_data_num_layers": 2,
+    "structured_data_hidden_dim": 512,
+    "structured_data_dropout_rate": 0.4,
+    "use_structured_data": true
+  },
+  "dataset": {
+    "task": "prioritization",
+    "corpus": "openOffice",
+    "balance_data": false,
+    "query_limit": 0,
+    "dataset_save_dir": ""
+  }
+}

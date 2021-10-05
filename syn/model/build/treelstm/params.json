@@ -1,0 +1,38 @@
+{
+    "alias": "learning_rate_embed_0.0001_embeddings_model_glove_sentence_hidden_dim_256",
+    "reference_params": false,
+    "scheduler": {
+        "trainer": "AdagradTrainer",
+        "sparse": 1,
+        "learning_rate_param": 0.01,
+        "learning_rate_embed": 0.0001,
+        "learning_rate_decay": 0.99,
+        "model_save_dir": "",
+        "batch_size": 25,
+        "regularization_strength": 0.0001,
+        "max_epochs": 10
+    },
+    "model": {
+        "architecture": "tree_lstm",
+        "n_classes": 5,
+        "embeddings_size": 300,
+        "embeddings_model": "glove",
+        "embeddings_pretrained": true,
+        "num_layers": 1,
+        "sentence_hidden_dim": 256,
+        "attention": "none",
+        "attention_dim": 32,
+        "structured_data_input_dim": 3,
+        "structured_data_num_layers": 2,
+        "structured_data_hidden_dim": 512,
+        "structured_data_dropout_rate": 0.4,
+        "use_structured_data": true
+    },
+    "dataset": {
+        "task": "prioritization",
+        "corpus": "netBeans",
+        "balance_data": false,
+        "query_limit": 0,
+        "dataset_save_dir": "C:\\*****\\syn\\host-mounted-volumes\\syn\\data\\tree_lstm\\prioritization\\netBeans"
+    }
+}

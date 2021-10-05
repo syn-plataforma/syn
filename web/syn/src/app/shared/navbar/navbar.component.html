@@ -1,0 +1,40 @@
+<mat-toolbar class="navbar">
+  <mat-toolbar-row class="options">
+    <div class="logoSyn">
+      <!--
+      <img class="logoSYNnavbar" src="../../../assets/images/logo-syn.png" alt="logoSYN" width="55px">
+      -->
+      <h1>SYN</h1>
+    </div>
+
+    <span class="example-spacer"></span>
+
+    <button mat-button [routerLink]="'/home'" routerLinkActive="active">
+      {{ "HOME" | translate }}
+    </button>
+    <button mat-button [routerLink]="'/metrics'" routerLinkActive="active">
+      {{ "METRICS" | translate }}
+    </button>
+    <button mat-button [routerLink]="'/dashboard'" routerLinkActive="active">
+      {{ "DASHBOARD" | translate }}
+    </button>
+    <button
+      mat-button
+      [routerLink]="'/aggregated-metrics'"
+      routerLinkActive="active"
+    >
+      {{ "AGGREGATED-METRICS" | translate }}
+    </button>
+
+    <div class="logoNavbar clickable">
+      <img
+        (click)="logoClick()"
+        class="logoFooter"
+        src="../../../assets/images/CapgeminiEngineering_Logo_White_RGB.png"
+        alt="logo"
+        width="200px"
+        height="40px"
+      />
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

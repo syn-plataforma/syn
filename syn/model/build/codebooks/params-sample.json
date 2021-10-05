@@ -1,0 +1,34 @@
+{
+    "alias": "base_params",
+    "reference_params": false,
+    "hyper_search_objective": "accuracy",
+    "hyper_search_overwrite": false,
+    "source_params": {
+        "params_file": "",
+        "database_name": "tasks",
+        "collection_name": "experiments",
+        "params_id": ""
+    },
+    "scheduler": {
+        "model_save_dir": "C:\\*****\\syn\\host-mounted-volumes\\syn\\experiments\\codebooks\\prioritization\\openOffice\\base_params"
+    },
+    "model": {
+        "architecture": "codebooks",
+        "classifier": "decision_tree",
+        "n_classes": null,
+        "embeddings_size": 300,
+        "embeddings_model": "glove",
+        "embeddings_pretrained": true,
+        "codebooks_n_codewords": 50,
+        "tfidf_min_df": 1,
+        "structured_data_input_dim": 3,
+        "use_structured_data": true
+    },
+    "dataset": {
+        "task": "prioritization",
+        "corpus": "openOffice",
+        "balance_data": false,
+        "query_limit": 0,
+        "dataset_save_dir": "C:\\*****\\syn\\host-mounted-volumes\\syn\\data\\codebooks\\prioritization\\openOffice"
+    }
+}

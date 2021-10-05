@@ -1,0 +1,49 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.logoNavbar {
+  margin-top: 10px;
+  margin-left: 50px;
+}
+
+.navbar {
+  background: rgb(59, 166, 226);
+  background: -moz-linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  background: -webkit-linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  background: linear-gradient(
+    317deg,
+    rgba(59, 166, 226, 1) 0%,
+    rgba(3, 111, 154, 1) 41%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3ba6e2", endColorstr="#036f9a", GradientType=1);
+}
+
+.options {
+  color: rgb(87, 87, 87);
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+h1 {
+  color: white;
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0px;
+  z-index: 10;
+}
+
+.active {
+  color: white;
+}

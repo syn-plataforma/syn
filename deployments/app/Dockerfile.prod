@@ -1,0 +1,74 @@
+###########
+# BUILDER #
+###########
+
+# Descarga la imagen base oficial official.
+FROM python:3.8-slim as builder
+
+# Establece el directorio de trabajo.
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Instala dependencias para Pycairo
+RUN apt-get -y update
+RUN apt-get -y install gcc libcairo2-dev pkg-config python3-dev
+
+# Instala las dependencias del proyecto.
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade setuptools
+COPY requirements.txt .
+RUN pip3 wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+# Descarga la imagen base oficial official.
+FROM python:3.8-slim
+
+# Establece el directorio de trabajo.
+WORKDIR /usr/src/app
+
+# Crea un usuario no root.
+RUN addgroup --system syn && adduser --system --no-create-home --group syn
+
+# Instala las dependencias.
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip3 install --no-cache /wheels/*
+
+# Instala Java para jnius
+RUN apt-get -y update
+RUN mkdir /usr/share/man/man1/
+RUN apt-get -y install default-jdk
+
+# Añade el entrypoint.sh que está en el directorio deployments
+COPY deployments/app/entrypoint.prod.sh /usr/src/app/entrypoint.prod.sh
+RUN chmod +x ./entrypoint.prod.sh
+
+# Cambia el propietario del directorio de trabajo.
+RUN chown -R syn:syn /usr/src/app && chmod -R 755 /usr/src/app
+
+# Crea directorio para almacenar los datos de NLTK utilizados en el proyecto.
+RUN mkdir -p /home/syn/nltk_data
+RUN chown -R syn:syn /home/syn/nltk_data && chmod -R 755 /home/syn/nltk_data
+
+# Cambia al usuario no root.
+USER syn
+
+# Añade el código de la aplicación.
+COPY definitions.py /usr/src/app
+ADD ./app /usr/src/app/app
+ADD ./syn /usr/src/app/syn
+
+COPY deployments/app/gunicorn_config.py /usr/src/app/gunicorn_config.py
+COPY deployments/app/check-mongodb-status.py /usr/src/app/check-mongodb-status.py
+
+# Descarga los datos de NLTK utilizados en el proyecto.
+RUN python -m nltk.downloader stopwords punkt
+
+ENTRYPOINT ["sh", "entrypoint.prod.sh"]

@@ -1,0 +1,174 @@
+<mat-card *ngIf="data.completo == 'DONE'">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Introducción de datos</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <p>Introducción de los datos de la incidencia</p>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <hr />
+  <mat-card-content>
+    <form [formGroup]="frmStepOne">
+      <div fxLayout="row" fxFlex="100" fxLayoutAlign="space-between stretch">
+        <!-- Primera columna -->
+        <div fxLayout="column" fxFlex="46%">
+          <mat-form-field
+            class="little"
+            *ngIf="
+              data.data.task_type !== 'classification' &&
+              data.data.task_type !== 'assignation' &&
+              data.data.task_type !== 'prioritization' &&
+              data.data.task_type !== 'custom_assignation'
+            "
+          >
+            <input
+              matInput
+              formControlName="bug_id"
+              matInput
+              placeholder="Bug id"
+            />
+          </mat-form-field>
+          <mat-form-field class="max">
+            <textarea
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="1"
+              matAutosizeMaxRows="9"
+              formControlName="description"
+              matInput
+              placeholder="Descripción"
+              [ngClass]="{ 'is-invalid': f.description.errors }"
+            ></textarea>
+            <mat-error *ngIf="submitted && f.description.errors">
+              <mat-error *ngIf="f.description.errors.required"
+                >El campo Descripcion es requerido</mat-error
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxFlex="46%">
+          <mat-form-field class="little" *ngIf="data.product.length != 0">
+            <mat-label>Producto</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="product"
+              [matAutocomplete]="autoProduct"
+              [ngClass]="{ 'is-invalid': f.product.errors }"
+            />
+            <mat-error *ngIf="submitted && f.product.errors">
+              <mat-error *ngIf="f.product.errors.required"
+                >El campo Producto es requerido</mat-error
+              >
+              <mat-error *ngIf="f.product.errors.isItemNotIncluded"
+                >El valor del productos debe estar dentro de la lista
+              </mat-error>
+            </mat-error>
+            <mat-autocomplete
+              #autoProduct="matAutocomplete"
+              [displayWith]="displayFn"
+            >
+              <mat-option
+                *ngFor="let optionProduct of filteredOptionsProduct | async"
+                [value]="optionProduct"
+              >
+                {{ optionProduct }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field
+            class="little"
+            *ngIf="
+              data.bug_severity.length != 0 &&
+              data.data.task_type !== 'classificaiton' &&
+              data.data.task_type !== 'custom_assignation'
+            "
+          >
+            <mat-label>Bug severity</mat-label>
+            <mat-select
+              formControlName="bug_severity"
+              placeholder="Bug Severity"
+              [ngClass]="{ 'is-invalid': f.bug_severity.errors }"
+            >
+              <mat-option *ngFor="let i of bugSeverities" [value]="i">
+                {{ i }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="submitted && f.bug_severity.errors">
+              <mat-error *ngIf="f.bug_severity.errors.required"
+                >El campo Bug severity es requerido</mat-error
+              >
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field
+            class="little"
+            *ngIf="
+              data.priority.length != 0 &&
+              data.data.task_type !== 'prioritization'
+            "
+          >
+            <mat-label>Bug priority</mat-label>
+            <mat-select
+              formControlName="priority"
+              placeholder="Bug priority"
+              [ngClass]="{ 'is-invalid': f.priority.errors }"
+            >
+              <mat-option *ngFor="let i of bugPriorities" [value]="i">
+                {{ i }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="submitted && f.priority.errors">
+              <mat-error *ngIf="f.priority.errors.required"
+                >El campo Bug priority es requerido</mat-error
+              >
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="little" *ngIf="data.component.length != 0">
+            <mat-label>Componente</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="component"
+              [matAutocomplete]="autoComponent"
+              [ngClass]="{ 'is-invalid': f.component.errors }"
+            />
+            <mat-error *ngIf="submitted && f.component.errors">
+              <mat-error *ngIf="f.component.errors.required"
+                >El campo Componente es requerido</mat-error
+              >
+              <mat-error *ngIf="f.component.errors.isItemNotIncluded"
+                >El valor del componente debe estar dentro de la lista
+              </mat-error>
+            </mat-error>
+            <mat-autocomplete
+              #autoComponent="matAutocomplete"
+              [displayWith]="displayFn"
+            >
+              <mat-option
+                *ngFor="let optionComponent of filteredOptionsComponent | async"
+                [value]="optionComponent"
+              >
+                {{ optionComponent }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+  <!-- Zona de acciones -->
+  <mat-card-actions>
+    <button
+      (click)="emitForm(buildRequest())"
+      mat-raised-button
+      matStepperNext
+      class="nav-btn pull-right nextButton"
+    >
+      Next
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,39 @@
+li {
+  list-style: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+
+mat-card-actions {
+  text-align: right;
+}
+mat-card-title {
+  text-align: center;
+}
+.resultados {
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.nextButton {
+  width: 205px;
+  height: 50px;
+  border-radius: 34px;
+  background-color: #0459a0;
+  color: white;
+}
+
+table {
+  width: 100%;
+}
+
+.centrarLista {
+  text-align: center;
+}

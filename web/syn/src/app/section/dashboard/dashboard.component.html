@@ -1,0 +1,314 @@
+<div class="texto-descriptivo">
+  <mat-card class="card-texto-descriptivo">
+    <mat-card-header class="centrar">
+      <mat-card-title>
+        <div class="titulo">
+          <h1>DASHBOARD</h1>
+        </div>
+        <hr class="linea-titulo" />
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="texto-descriptivo">
+        En esta pantalla se muestran las metricas y número de datos para los
+        mejores modelos de cada tarea
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="content">
+  <!-- Select Experimento -->
+  <div class="centrarSelect">
+    <div class="selectTraining">
+      <mat-form-field>
+        <mat-label>{{ "SELECTCORPUS" | translate }}</mat-label>
+
+        <mat-select [(ngModel)]="corpus">
+          <mat-option
+            *ngFor="let corpus of corpusList"
+            [value]="corpus"
+            (click)="loadDashboard()"
+          >
+            {{ corpus }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="treatmentsContainer" *ngIf="getDatos === 'COMPLETE'">
+    <div fxLayout="row wrap" fxFlex="89" fxLayoutAlign="space-between ">
+      <div
+        fxFlex="15%"
+        *ngFor="let item of listTask; index as i; first as isFirst"
+      >
+        <mat-card appMaterialElevation class="trainings">
+          <div>
+            <span class="tituloTraining">
+              <b>{{ item | translate }}</b>
+            </span>
+          </div>
+          <div>
+            <span class="tituloConjunto"
+              ><b>Conjunto de datos (FILAS) </b></span
+            >
+          </div>
+          <div *ngIf="item === 'assignation'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision_micro</b>:
+                  {{ metricasBestModels[item].metricas.precision_micro }}
+                </li>
+                <li>
+                  <b>recall_micro</b>:
+                  {{ metricasBestModels[item].metricas.recall_micro }}
+                </li>
+                <li>
+                  <b>f1_micro</b>:
+                  {{ metricasBestModels[item].metricas.f1_micro }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="item === 'classification'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision_micro</b>:
+                  {{ metricasBestModels[item].metricas.precision_micro }}
+                </li>
+                <li>
+                  <b>recall_micro</b>:
+                  {{ metricasBestModels[item].metricas.recall_micro }}
+                </li>
+                <li>
+                  <b>f1_micro</b>:
+                  {{ metricasBestModels[item].metricas.f1_micro }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="item === 'prioritization'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision_micro</b>:
+                  {{ metricasBestModels[item].metricas.precision_micro }}
+                </li>
+                <li>
+                  <b>recall_micro</b>:
+                  {{ metricasBestModels[item].metricas.recall_micro }}
+                </li>
+                <li>
+                  <b>f1_micro</b>:
+                  {{ metricasBestModels[item].metricas.f1_micro }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div *ngIf="item === 'duplicity'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision</b>:
+                  {{ metricasBestModels[item].metricas.precision }}
+                </li>
+                <li>
+                  <b>recall</b>:
+                  {{ metricasBestModels[item].metricas.recall }}
+                </li>
+                <li><b>f1</b>: {{ metricasBestModels[item].metricas.f1 }}</li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="item === 'custom_assignation'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision_micro</b>:
+                  {{ metricasBestModels[item].metricas.precision_micro }}
+                </li>
+                <li>
+                  <b>recall_micro</b>:
+                  {{ metricasBestModels[item].metricas.recall_micro }}
+                </li>
+                <li>
+                  <b>f1_micro</b>:
+                  {{ metricasBestModels[item].metricas.f1_micro }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="item === 'similarity'">
+            <ul>
+              <li>
+                <b>Entrenamiento: </b>
+                {{ metricasBestModels[item].statics[0].train_dataset }}
+              </li>
+              <li
+                *ngIf="
+                  metricasBestModels[item].statics[0].hasOwnProperty(
+                    'dev_dataset'
+                  )
+                "
+              >
+                <b>Validación:</b>
+                {{ metricasBestModels[item].statics[0].dev_dataset }}
+              </li>
+              <li>
+                <b>Prueba: </b>
+                {{ metricasBestModels[item].statics[0].test_dataset }}
+              </li>
+            </ul>
+            <div class="metrics">
+              <span class="tituloConjunto"><b>Métricas </b></span>
+              <ul>
+                <li>
+                  <b>accuracy</b>:
+                  {{ metricasBestModels[item].metricas.accuracy }}
+                </li>
+                <li>
+                  <b>precision</b>:
+                  {{ metricasBestModels[item].metricas.precision }}
+                </li>
+                <li>
+                  <b>recall</b>:
+                  {{ metricasBestModels[item].metricas.recall }}
+                </li>
+                <li><b>f1</b>: {{ metricasBestModels[item].metricas.f1 }}</li>
+              </ul>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

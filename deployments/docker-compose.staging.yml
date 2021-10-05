@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: syn_rest_api_app
+    build:
+      context: ../
+      dockerfile: ./deployments/app/Dockerfile
+    image: altgovrd/syn-rest-api:0.1.0
+    volumes:
+      - syn_rest_api_app_volume/:/app/
+      - /datadrive/host-mounted-volumes/api/evaluate_data:/usr/src/evaluate_data:ro
+      - /datadrive/host-mounted-volumes/syn/dump:/usr/src/model_dump:ro
+      - /datadrive/host-mounted-volumes/stanford-corenlp:/usr/src/stanford-corenlp:ro
+    expose:
+      - 5000
+    env_file:
+      - app/.env.staging
+      - db/.env.staging.db
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: nginx
+    # Arranca automáticamente el contenedor al iniciar el equipo.
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - app
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    env_file:
+      - app/.env.staging.proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+    depends_on:
+      - nginx-proxy
+
+volumes:
+  syn_rest_api_app_volume:
+  certs:
+  html:
+  vhost:

@@ -1,0 +1,76 @@
+*.pyc
+__pycache
+.DS_Store
+
+# IDE.
+.idea/
+**/*.vscode/
+
+# Python environment.
+env/
+venv/
+
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+
+# Module file
+**/*.iml
+
+# JAR and class files.
+**/*.jar
+**/*.class
+
+# Documentation.
+**/docs/*
+!**/docs/source/
+
+# Properties files.
+**/*.env
+**/*.env.*
+/app/config/config.py
+!**/*.sample
+
+# Backups
+deployments/db/backups/
+
+# Trainings
+**/*.pkl
+**/*.pkl.*
+**/*.h5
+**/*.h5.*
+**/*.npy
+
+# Data
+host-mounted-volumes/*
+
+# Evaluation data.
+**/*.csv
+**/*.csv.*
+
+# Parameter space
+!syn/model/build/treelstm/parameter_space/**/*.json
+!syn/model/build/treelstm/task/prioritization/experiments/**/*.json
+
+# Files from python manage.py collectstatic
+static/*
+!static/README.md
+staticfiles/
+!staticfiles/README.md
+
+# Log files.
+**/*.log
+**/*.log.*
+
+# Working envirnment definition.
+definitions.py
+
+# Charts.
+**/output/
+
+# Trainings
+**/*TreeLstmCategoricalTrain*
+**/*TreeLstmDuplicateTrain*
+
+# Stanford CoreNLP
+/lib/stanford-corenlp/
+

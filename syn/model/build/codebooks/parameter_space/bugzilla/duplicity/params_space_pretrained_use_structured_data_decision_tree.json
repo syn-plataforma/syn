@@ -1,0 +1,45 @@
+{
+  "alias": "hyper_search",
+  "reference_params": true,
+  "hyper_search_objective": "accuracy",
+  "hyper_search_overwrite": false,
+  "scheduler": {
+    "model_save_dir": ""
+  },
+  "model": {
+    "architecture": "codebooks",
+    "classifier": "decision_tree",
+    "n_classes": 2,
+    "embeddings_size": [
+      100,
+      300
+    ],
+    "embeddings_model": "glove",
+    "embeddings_pretrained": [
+      true
+    ],
+    "codebooks_n_codewords": [
+      50,
+      500,
+      5000,
+      10000,
+      15000,
+      20000,
+      25000,
+      30000,
+      35000,
+      40000,
+      48628
+    ],
+    "tfidf_min_df": 1,
+    "structured_data_input_dim": 4,
+    "use_structured_data": true
+  },
+  "dataset": {
+    "task": "duplicity",
+    "corpus": "bugzilla",
+    "balance_data": false,
+    "query_limit": 0,
+    "dataset_save_dir": ""
+  }
+}

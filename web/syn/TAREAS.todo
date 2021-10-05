@@ -1,0 +1,8 @@
+- Tareas 18/2 :
+     - Traducir textos tabla vecotizer @done
+
+     - Modificar servicios para corpus y method dinámicos @done
+     - Cambiar metodo setMethods IndexComponent para que recoga el parámetro del api @done
+- Tareas 13/01:
+      - Modificar peticiones de servicios con data limit
+      - Revertirlo al finalizar el desarrollo.

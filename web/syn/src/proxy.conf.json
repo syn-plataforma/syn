@@ -1,0 +1,12 @@
+{
+  "/v1": {
+    "target": "https://api.syn.altgovrd.com",
+    "timeout": 360000000,
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite":{
+      "^/v1": ""
+
+  }
+}
+}

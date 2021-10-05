@@ -1,0 +1,56 @@
+{
+    "alias": "hyper_search",
+    "reference_params": true,
+    "hyper_search_objective": "accuracy",
+    "hyper_search_overwrite": false,
+    "source_params": {
+        "params_file": "",
+        "database_name": "tasks",
+        "collection_name": "experiments",
+        "params_id": ""
+    },
+    "scheduler": {
+        "model_save_dir": ""
+    },
+    "model": {
+        "architecture": "codebooks",
+        "active_developer_gte_year": "2018",
+        "active_developer_gte_month": "01",
+        "active_developer_gte_day": "01",
+        "w": [
+            0.0,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1.0
+        ],
+        "k": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+        ]
+    },
+    "dataset": {
+        "task": "custom_assignation",
+        "corpus": "bugzilla",
+        "train": "assignation_task_custom_train_dataset_30_lt_2019_11_01",
+        "opened": "assignation_task_custom_opened_dataset_30_gte_2019_11_01_lt_2019_12_01",
+        "test": "assignation_task_custom_test_dataset_30_gte_2019_12_01",
+        "balance_data": false,
+        "query_limit": 0,
+        "dataset_save_dir": ""
+    }
+}

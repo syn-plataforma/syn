@@ -1,0 +1,148 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ tituloTratamiento | translate }}</mat-card-title>
+    <mat-card-subtitle>
+      <p>En esta pantalla se muestra la predicción realizada por el modelo</p>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <br />
+  <hr />
+  <mat-card-content class="resultados">
+    <mat-card fxLayout="column" fxFlex="49.5%">
+      <mat-card-header>
+        <mat-card-title>Incidencia Registrada</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul>
+          <li>
+            <b>Producto de la Incidencia: </b>
+            {{ data.incidencia.product }}
+          </li>
+          <li>
+            <b>Texto en la descripcion de la Incidencia:</b>
+            {{ data.incidencia.description }}
+          </li>
+          <li>
+            <b>Severidad de la Incidencia: </b>
+            {{ data.incidencia.bug_severity }}
+          </li>
+          <li>
+            <b>Prioridad de la Incidencia:</b>
+            {{ data.incidencia.priority }}
+          </li>
+          <li>
+            <b>Componente de la Incidencia:</b>
+            {{ data.incidencia.component }}
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="data.task_type === 'assignation'">
+      <mat-card *ngIf="data.task_type == 'assignation'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Desarrollador propuesto para asignarle la
+            incidencia</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            {{ item.pred }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="data.task_type === 'custom_assignation'">
+      <mat-card *ngIf="data.task_type == 'custom_assignation'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Desarrolladores propuesto para asignarle la
+            incidencia</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            {{ item.pred }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="data.task_type === 'classification'">
+      <mat-card *ngIf="data.task_type == 'classification'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Severidad propuesta para la
+            incincidencia.</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            {{ item.pred }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="data.task_type === 'prioritization'">
+      <mat-card *ngIf="data.task_type == 'prioritization'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Prioridad propuesta para la incidencia.</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            {{ item.pred }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="data.task_type === 'duplicity'">
+      <mat-card *ngIf="data.task_type == 'duplicity'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Lista con los identificadores de las incidencias y su
+            probabilidad de ser un duplicado de la incidencia
+            actual.</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            <span class="bold">{{ item.bug_id }}</span> -
+            {{ item.predidct_proba }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="data.task_type === 'similarity'">
+      <mat-card *ngIf="data.task_type == 'similarity'">
+        <mat-card-header>
+          <mat-card-title
+            >PREDICCIÓN: Lista con los identificadores de las incidencias y su
+            probabilidad de ser una incidencia similar de la incidencia
+            actual.</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content class="centrarLista">
+          <li *ngFor="let item of listResult; index as i; first as isFirst">
+            <span class="bold">{{ item.bug_id }}</span> -
+            {{ item.predidct_proba }}
+          </li>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+
+  <!-- Zona de acciones -->
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      [routerLink]="['/']"
+      class="nav-btn pull-right nextButton"
+    >
+      Volver a Inicio
+    </button>
+  </mat-card-actions>
+</mat-card>

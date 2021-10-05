@@ -1,0 +1,43 @@
+<div class="titulo">
+  <h1>
+    {{ dataFromIndex.corpus | uppercase }}: {{ tituloTratamiento | translate }}
+  </h1>
+</div>
+
+<mat-horizontal-stepper linear #stepper>
+  <!--Primer step-->
+  <mat-step [stepControl]="frmStepOne | async" [editable]="isEditable">
+    <ng-template matStepLabel>{{ "INPUTSTEPTITTLE" | translate }} </ng-template>
+    <div
+      class="loadingScreen"
+      [ngClass]="{ hidden: ($isLoading | async) === false }"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <app-input-test
+      *ngIf="dataToInputPresenter.completo === 'DONE'"
+      [ngClass]="{ hidden: ($isLoading | async) === true }"
+      #stepOne
+      [data]="dataToInputPresenter"
+      (incidenciaEmitter)="registrarIncidencia($event)"
+    ></app-input-test>
+  </mat-step>
+  <!--Segundo step-->
+  <mat-step [stepControl]="frmStepTwo | async" [editable]="isEditable">
+    <ng-template matStepLabel>{{ tituloTratamiento | translate }}</ng-template>
+    <div
+      class="loadingScreen"
+      [ngClass]="{ hidden: ($isLoading | async) === false }"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <app-display
+      *ngIf="inputToDisplay.task_type !== ''"
+      [ngClass]="{ hidden: ($isLoading | async) === true }"
+      #stepTwo
+      [data]="inputToDisplay"
+    ></app-display>
+  </mat-step>
+</mat-horizontal-stepper>

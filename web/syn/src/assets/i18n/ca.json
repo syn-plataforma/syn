@@ -1,0 +1,13 @@
+{
+    "HOME":"Inici",
+    "assignation":"Assignació d'incidències",
+    "retrieval":"Recuperación de incidencias similares",
+    "duplicates":"Recuperació d'incidències similars",
+    "classification":"Calificación de incidencias",
+    "INDEXOPTIONTEST": "Qualificació d'incidències",
+    "INDEXOPTIONAPITOUR": "Pas a pas de el tractament que realitza l'API amb la nova indicencia registrada ",
+    "TABLEPARAMETERSDESCRIPTION": "Descripció",
+    "TABLEPARAMETERSVALUE": "Valor",
+    "GETSTARTEDBUTTON": "COMENÇAR",
+    "SELECTTRAINING": "Seleccioneu entrenament"
+}
